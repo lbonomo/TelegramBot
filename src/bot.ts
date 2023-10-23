@@ -13,7 +13,7 @@ const client = new DynamoDBClient({
 });
 
 const addUser = async (context: any) => {
-
+    let date = new Date;
     const command = new PutItemCommand({
         TableName: "TelegramUsers",
         Item: {
@@ -21,7 +21,8 @@ const addUser = async (context: any) => {
             username: { S: context.from.username },
             userID: { N: context.from.id.toString() },
             first_name: { S: context.from.first_name },
-            last_name: { S: context.from.last_name }
+            last_name: { S: context.from.last_name },
+            date: {S: date.toISOString() }
         },
     });
 
