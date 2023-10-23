@@ -1,0 +1,25 @@
+{
+  "name": "citadiariabot",
+  "version": "1.0.0",
+  "description": "Telegram Bot Example",
+  "main": "./src/bot.js",
+  "scripts": {
+    "build": "tsc && node ./build/bot.js",
+    "dev": "ts-node-dev ./src/bot.ts",
+    "tsc": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.433.0",
+    "dotenv": "^16.3.1",
+    "telegraf": "^4.14.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "@types/uuid": "^9.0.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}
