@@ -13,32 +13,29 @@ const client = new DynamoDBClient({
 });
 
 const addUser = async (context: any) => {
-    console.log(context?.from)
 
-    // {
-    //     id: 417008159,
-    //     is_bot: false,
-    //     first_name: 'Chimuelo',
-    //     username: 'chimuelo86',
-    //     language_code: 'es'
-    //   }
-              
-    let date = new Date;
+    let chatID     = context.chat.id.toString()
+    let userID     = context.from.id.toString()
+    let username   = context.from.username
+    let first_name = context.from.first_name ? context.from.first_name : ''
+    let last_name  = context.from.last_name ? context.from.last_name : ''
+    let language   = context.from.language_code ? context.from.language_code : 'en'
+    let date       = new Date
+
     const command = new PutItemCommand({
-        TableName: "TelegramUsers",
+        TableName: "TelegramUsers",     
         Item: {
-            chatID: { N: context.chat.id.toString() },
-            username: { S: context.from.username },
-            userID: { N: context.from.id.toString() },
-            first_name: { S: context.from.first_name! },
-            // last_name: { S: context.from.last_name! },
-            language: { S: context.from.language_code! },
+            chatID: { N: chatID },
+            username: { S: username },
+            userID: { N: userID },
+            first_name: { S: first_name },
+            last_name: { S: last_name },
+            language: { S: language },
             date: { S: date.toISOString() }
         },
     });
 
     const data = await client.send(command);
-    console.log(data);
 }
 
 
@@ -49,7 +46,7 @@ const quote = async () => {
 }
 
 bot.command('quote', async (context: any) => {
-    // await addUser(context)
+    await addUser(context)
     context.reply(await quote(), { parse_mode: 'HTML' })
 })
 
