@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc && node ./build/bot.js",
     "dev": "ts-node-dev ./src/bot.ts",
+    "send": "ts-node-dev ./src/send.ts",
     "tsc": "tsc"
   },
   "author": "",
