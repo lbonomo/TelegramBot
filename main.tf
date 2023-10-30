@@ -18,33 +18,29 @@ provider "aws" {
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
   name         = "TelegramUsers"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "chatID"
-  range_key    = "username"
+  hash_key     = "userID"
 
   attribute {
-    name = "chatID"
     type = "N"
+    name = "userID"
   }
+
+}
+
+resource "aws_dynamodb_table" "telegram_message" {
+  name         = "TelegramMessages"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "message_id"
+  range_key    = "user_id"
 
   attribute {
-    name = "username"
-    type = "S"
+    type = "N"
+    name = "message_id"
   }
-
-#   attribute {
-#     name = "userID"
-#     type = "S"
-#   }
-
-
-#   attribute {
-#     name = "first_name"
-#     type = "S"
-#   }
-
-#   attribute {
-#     name = "last_name"
-#     type = "S"
-#   }
+  
+  attribute {
+    type = "N"
+    name = "user_id"
+  }
 
 }

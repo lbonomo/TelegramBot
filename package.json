@@ -14,8 +14,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.433.0",
     "dotenv": "^16.3.1",
-    "telegraf": "^4.14.0",
-    "uuid": "^9.0.1"
+    "telegraf": "^4.14.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
