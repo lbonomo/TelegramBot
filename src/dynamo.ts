@@ -1,5 +1,7 @@
 
 import { PutItemCommand, GetItemCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { v4 as uuid } from 'uuid';
+
 
 export interface IUserData {
     userID: { 'N': string }
@@ -85,7 +87,21 @@ export const getInfo = async (userID: string) => {
 }
 
 // Add a new quote.
-export const addQuote = async (userID:string, quote:string, author:string) => {
+export const addQuote = async (user_id:string, date:string, quote:string, author:string, language:string) => {
+    let quote_id = uuid.toString()
+    const command = new PutItemCommand({
+        TableName: "Quotes",
+        Item: {
+            quote_id: {S: quote_id },
+            user_id: {N: user_id},
+            date: {S: date},
+            quote: {S: quote},
+            author: {S: author},
+            language: {S: language}
+        },
+    });
+
+    await client.send(command);
     return userID
 }
 

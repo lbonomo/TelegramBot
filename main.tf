@@ -1,4 +1,8 @@
 # Terrarorm
+# terraform import aws_dynamodb_table.telegram_users TelegramUsers
+# terraform import aws_dynamodb_table.telegram_message TelegramMessages
+# terraform import aws_dynamodb_table.quotes Quotes
+
 terraform {
   required_version = ">= 0.12"
   required_providers {
@@ -15,16 +19,15 @@ provider "aws" {
   profile = "terraform"
 }
 
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
+resource "aws_dynamodb_table" "telegram_users" {
   name         = "TelegramUsers"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "userID"
+  hash_key     = "user_id"
 
   attribute {
     type = "N"
-    name = "userID"
+    name = "user_id"
   }
-
 }
 
 resource "aws_dynamodb_table" "telegram_message" {
@@ -42,5 +45,21 @@ resource "aws_dynamodb_table" "telegram_message" {
     type = "N"
     name = "user_id"
   }
+}
 
+resource "aws_dynamodb_table" "quotes" {
+  name         = "Quotes"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "quote_id"
+  range_key    = "user_id"
+
+  attribute {
+    type = "S"
+    name = "quote_id"
+  }
+  
+  attribute {
+    type = "N"
+    name = "user_id"
+  }
 }

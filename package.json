@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc && node ./build/bot.js",
     "dev": "ts-node-dev ./src/bot.ts",
+    "wizard": "ts-node-dev ./src/wizard.ts",
     "send": "ts-node-dev ./src/send.ts",
     "tsc": "tsc"
   },
@@ -14,7 +15,8 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.433.0",
     "dotenv": "^16.3.1",
-    "telegraf": "^4.14.0"
+    "telegraf": "^4.14.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
