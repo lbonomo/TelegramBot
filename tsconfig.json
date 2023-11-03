@@ -103,6 +103,7 @@
   },
   "files": [
     "src/bot.ts",
-    "src/send.ts"
+    "src/send.ts",
+    "src/wizard.ts"
   ],
 }
