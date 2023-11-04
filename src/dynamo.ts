@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 
 export interface IUserData {
-    userID: { 'N': string }
+    user_id: { 'N': string }
     date:   { 'S': string }
     last_name:  { 'S': string }
     first_name: { 'S': string }
@@ -33,20 +33,15 @@ const client = new DynamoDBClient({
 });
 
 // Add user to DynamoDB.
-export const addUser = async (context: any) => {
-    let chatID = context.chat.id.toString()
-    let userID = context.from.id.toString()
-    let username = context.from.username
-    let first_name = context.from.first_name ? context.from.first_name : ''
-    let last_name = context.from.last_name ? context.from.last_name : ''
-    let language = context.from.language_code ? context.from.language_code : 'en'
+export const addUser = async (user_id:string, username:string, first_name:string, last_name:string, language:string) => {
+    console.log(user_id)
     let date = new Date
 
     const command = new PutItemCommand({
         TableName: "TelegramUsers",
         Item: {
             username: {S: username},
-            userID: {N: userID},
+            user_id: {N: user_id},
             first_name: {S: first_name},
             last_name: {S: last_name},
             language: {S: language},
@@ -60,15 +55,12 @@ export const addUser = async (context: any) => {
 
 // Get info.
 // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-table-read-write.html
-export const getInfo = async (userID: string) => {
-    // let userID = context.from.id.toString()
-    // console.log(userID)
-    
+export const getInfo = async (user_id: string) => { 
     const input = {
         "TableName": "TelegramUsers",
         "Key": {
-          "userID": {
-            "N": userID
+          "user_id": {
+            "N": user_id
           }
         }
       };
@@ -102,7 +94,7 @@ export const addQuote = async (user_id:string, date:string, quote:string, author
     });
 
     await client.send(command);
-    return userID
+    return user_id
 }
 
 export const addMessage = async (message_id:string, user_id:string, date:string, text:string) => {
