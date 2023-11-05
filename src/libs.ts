@@ -64,14 +64,20 @@ Language: ${info?.language?.S}
     return html
 }
 
-
-// export const add = async (context:any, bot:any) => {
-//     context.reply("Insert BTC Wallet Address for the payment: ");
-//     bot.on("text", async (context:any) => {
-//          await context.telegram
-//              .sendMessage(context.message.chat.id, context.message.chat)
-//              .then(() => {
-//                   context.reply(`Your wallet address is: {context.update.message.text}`)
-//               });
-//     });
-// }
+// Save a quote on DynamoDB 
+export const addquote = async (context:any) => {
+    let data = context.wizard.state.data
+    let user_id = context.from.id.toString()
+    if (('quote' in data) && ('author' in data)) {
+        let quote = data.quote 
+        let author = data.author 
+        let r = await addQuote(user_id, quote, author)
+        if ( r ) {
+            return true    
+        } else {
+            return false
+        }
+    } else {
+        return false
+    } 
+}

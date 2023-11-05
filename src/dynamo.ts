@@ -19,8 +19,6 @@ export interface IUserData {
     // username: { S: 'lbonomo' },
     // rol: { S: 'user' },
     // language: { S: 'es' }
-
-      
 }
 
 // const client = new DynamoDBClient({});
@@ -79,22 +77,39 @@ export const getInfo = async (user_id: string) => {
 }
 
 // Add a new quote.
-export const addQuote = async (user_id:string, date:string, quote:string, author:string, language:string) => {
-    let quote_id = uuid.toString()
+export const addQuote = async (user_id:string, quote:string, author:string) => {
+    let quote_id = uuid()
+    let date = new Date
+    let user = await( getInfo(user_id) )
+    // {
+    //     date: { S: '2023-11-04T13:21:17.136Z' },
+    //     user_id: { N: '250829747' },
+    //     last_name: { S: 'Bonomo' },
+    //     first_name: { S: 'Lucas' },
+    //     username: { S: 'lbonomo' },
+    //     rol: { S: 'admin' },
+    //     language: { S: 'es' }
+    //   }
+    // let status = 'approved' ? ( user.rol === 'admin') : 'pending'
+    let status = 'approved'
+    
     const command = new PutItemCommand({
         TableName: "Quotes",
         Item: {
             quote_id: {S: quote_id },
             user_id: {N: user_id},
-            date: {S: date},
+            date: {S: date.toISOString()},
             quote: {S: quote},
             author: {S: author},
-            language: {S: language}
+            // language: {S: user.language}
+            language: {S: 'es'},
+            status: {S: status }
         },
     });
 
     await client.send(command);
-    return user_id
+    // TODO: improve.
+    return true
 }
 
 export const addMessage = async (message_id:string, user_id:string, date:string, text:string) => {
