@@ -1,5 +1,5 @@
 // Auxiliary funcition file.
-import { addUser, getInfo, addQuote, addMessage } from './dynamo'
+import { addUser, getInfo, addQuote, addMessage, getQuote } from './dynamo'
 
 const helpES = () => {
     let text = `<b>Ayuda</b>
@@ -47,8 +47,10 @@ export const quote = async (context: any) => {
     let user = context.from.first_name
 
     // Get quote.
+    let result = await getQuote()
 
-    return `Hi <strong>${user}</strong>`
+    return `<i>"${result?.quote.S}"</i>
+by: ${result?.author.S}`
 }
 
 // Return user and quote information.
@@ -56,10 +58,10 @@ export const info = async (context:any) => {
     let user_id = context.from.id.toString()
     let info:any = await( getInfo(user_id) )
     let html = `<b>Uer info:</b><code>
-Username: ${info?.username?.S }
-ID:       ${info?.user_id?.N }
-Rol:      ${info?.rol?.S}
-Language: ${info?.language?.S}
+Username: ${info?.username.S }
+ID:       ${info?.user_id.N }
+Rol:      ${info?.rol.S}
+Language: ${info?.language.S}
 </code>`
     return html
 }
@@ -80,4 +82,13 @@ export const addquote = async (context:any) => {
     } else {
         return false
     } 
+}
+
+// Save message
+export const savemessage = async (context:any) => {
+    let user_id = context.from.id.toString()
+    let message_id = context.message.message_id.toString()
+    let date = context.message.date.toString()
+    let text = context.message.text
+    await addMessage(message_id, user_id, date, text)
 }
